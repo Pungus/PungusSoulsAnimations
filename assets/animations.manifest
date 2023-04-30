@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 3715957126
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: edb221d5e2d53b6eb388dea706866149
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: af57576da81d5d3ce45807ac11234de6
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/test/artorias/Abyss Greatsword1/GreatSwordSlashNew.anim
+- Assets/AnimationClip2/MyCoolDance1.anim
+Dependencies: []
