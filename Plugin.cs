@@ -56,7 +56,6 @@ namespace PungusSoulsAnimations
             _serverConfigLocked = config("1 - General", "Lock Configuration", Toggle.On,
                 "If on, the configuration is locked and can be changed by server admins only.");
             _ = ConfigSync.AddLockingConfigEntry(_serverConfigLocked);
-
             /*Assembly assembly = Assembly.GetExecutingAssembly();*/
             PungusAnimations.AnimationAwake();
             _harmony.PatchAll();

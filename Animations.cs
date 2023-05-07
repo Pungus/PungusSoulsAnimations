@@ -20,8 +20,8 @@ namespace PungusSoulsAnimations
             CoolAnimation.Add("Dance", "MyCoolDance1");
             CoolAnimation.Add("Greatsword Secondary Attack", "GreatSwordSlashNew");
 
-            _externalAnimations.Add("MyCoolDance1", asset.LoadAsset<AnimationClip>("MyCoolDance1"));
-            _externalAnimations.Add("GreatSwordSlashNew", asset.LoadAsset<AnimationClip>("GreatSwordSlashNew"));
+            _externalAnimations.Add("MyCoolDance1", asset.LoadAsset<AnimationClip>("MyCoolDance1.anim"));
+            _externalAnimations.Add("GreatSwordSlashNew", asset.LoadAsset<AnimationClip>("GreatSwordSlashNew.anim"));
         }
         private static RuntimeAnimatorController MakeAoc(IReadOnlyDictionary<string, string> replacement,
             RuntimeAnimatorController original)
