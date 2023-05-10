@@ -18,7 +18,7 @@ namespace PungusSoulsAnimations
         {
             AssetBundle asset = PrefabManager.RegisterAssetBundle("animations", "assets");
             CoolAnimation.Add("Dance", "MyCoolDance1");
-            CoolAnimation.Add("Greatsword Secondary Attack", "GreatSwordSlashNew");
+            CoolAnimation.Add("Greatsword_Secondary", "GreatSwordSlashNew");
 
             _externalAnimations.Add("MyCoolDance1", asset.LoadAsset<AnimationClip>("MyCoolDance1.anim"));
             _externalAnimations.Add("GreatSwordSlashNew", asset.LoadAsset<AnimationClip>("GreatSwordSlashNew.anim"));
@@ -60,5 +60,27 @@ namespace PungusSoulsAnimations
                 MyNewAnimation = MakeAoc(CoolAnimation, __instance.m_animator.runtimeAnimatorController);
             }
         }
+
+        [HarmonyPatch(typeof(PungusSoulsAnimationsPlugin), nameof(PungusSoulsAnimationsPlugin.UpdatePungusAnimations), typeof(float))]
+        private static class DebugFlyCustomAnimationController2
+        {
+            private static void Postfix()
+            {
+                Player.m_localPlayer.m_zanim.SetBool(Character.onGround, true);
+                Player.m_localPlayer.m_zanim.SetFloat(Character.forward_speed, 0f);
+                Player.m_localPlayer.m_animator.runtimeAnimatorController = MyNewAnimation;
+            }
+        }
+        [HarmonyPatch(typeof(Humanoid), nameof(Humanoid.UnequipItem))]
+        static class Humanoid_UnequipItem_Patch
+        {
+            static void Prefix(Humanoid __instance, ItemDrop.ItemData item, bool triggerEquipEffects)
+            {
+                if (item == null || !Player.m_localPlayer || !__instance.IsPlayer()) return;
+                if (item.m_dropPrefab.name != "AbyssGreatSword") return;
+                Player.m_localPlayer.m_animator.runtimeAnimatorController = OrigAnimation;
+            }
+        }
+
     }
 }

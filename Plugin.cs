@@ -64,9 +64,8 @@ namespace PungusSoulsAnimations
         public void update()
         {
             if (!Player.m_localPlayer) return;
-            {
-                Player.m_localPlayer.m_animator.runtimeAnimatorController = PungusAnimations.MyNewAnimation;
-            }
+
+            Player.m_localPlayer.m_animator.runtimeAnimatorController = PungusAnimations.MyNewAnimation;
         }
         private void OnDestroy()
         {
