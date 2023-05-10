@@ -18,8 +18,8 @@ using UnityEngine;
 using PrefabManager = ItemManager.PrefabManager;
 using Range = LocationManager.Range;
 
-namespace PungusSoulsAnimations
-{
+namespace PungusSoulsAnimations;
+
     [BepInPlugin(ModGUID, ModName, ModVersion)]
     public class PungusSoulsAnimationsPlugin : BaseUnityPlugin
     {
@@ -30,6 +30,7 @@ namespace PungusSoulsAnimations
         private static string ConfigFileName = ModGUID + ".cfg";
         private static string ConfigFileFullPath = Paths.ConfigPath + Path.DirectorySeparatorChar + ConfigFileName;
         internal static string ConnectionError = "";
+        private bool _sword;
         private readonly Harmony _harmony = new(ModGUID);
         public static PungusSoulsAnimationsPlugin context;
 
@@ -56,7 +57,6 @@ namespace PungusSoulsAnimations
             _serverConfigLocked = config("1 - General", "Lock Configuration", Toggle.On,
                 "If on, the configuration is locked and can be changed by server admins only.");
             _ = ConfigSync.AddLockingConfigEntry(_serverConfigLocked);
-            /*Assembly assembly = Assembly.GetExecutingAssembly();*/
             PungusAnimations.AnimationAwake();
             _harmony.PatchAll();
             SetupWatcher();
@@ -64,8 +64,43 @@ namespace PungusSoulsAnimations
         public void update()
         {
             if (!Player.m_localPlayer) return;
+            if (Player.m_localPlayer.GetCurrentWeapon()?.m_dropPrefab?.name != "AbyssGreatSword") return;
+            if(_sword)
+                {
+                _sword = !_sword;
+                Player.m_localPlayer.m_animator.runtimeAnimatorController = PungusAnimations.OrigAnimation;
+                Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, "off");
+                }
 
-            Player.m_localPlayer.m_animator.runtimeAnimatorController = PungusAnimations.MyNewAnimation;
+            else
+                {
+                _sword = !_sword;
+                Player.m_localPlayer.m_animator.runtimeAnimatorController = PungusAnimations.MyNewAnimation;
+                Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, "working");
+                }
+        }
+        public void FixedUpdate()
+        {
+            try
+            {
+                if (!Player.m_localPlayer)
+                    return;
+                if (Player.m_localPlayer.GetCurrentWeapon()?.m_dropPrefab?.name != "AbyssGreatSword")
+                    _sword = false;
+
+            }
+            catch (Exception e)
+            {
+                PungusSoulsAnimationsLogger.LogError($"{e}");
+            }
+        }
+
+        public void UpdatePungusAnimations(float dt)
+        {
+                _sword = !_sword;
+                Player.m_localPlayer.m_animator.runtimeAnimatorController = PungusAnimations.OrigAnimation;
+                // Player.m_localPlayer.m_nview.GetZDO().Set("DebugFly", this.flight);
+                Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, "Animations" + _sword);
         }
         private void OnDestroy()
         {
@@ -148,4 +183,3 @@ namespace PungusSoulsAnimations
 
         #endregion
     }
-}

@@ -62,7 +62,7 @@ namespace PungusSoulsAnimations
         }
 
         [HarmonyPatch(typeof(PungusSoulsAnimationsPlugin), nameof(PungusSoulsAnimationsPlugin.UpdatePungusAnimations), typeof(float))]
-        private static class DebugFlyCustomAnimationController2
+        private static class CustomAnimationController2
         {
             private static void Postfix()
             {
