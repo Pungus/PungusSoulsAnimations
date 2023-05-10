@@ -30,8 +30,6 @@ namespace PungusSoulsAnimations;
         private static string ConfigFileName = ModGUID + ".cfg";
         private static string ConfigFileFullPath = Paths.ConfigPath + Path.DirectorySeparatorChar + ConfigFileName;
         internal static string ConnectionError = "";
-        private bool _sword;
-        private readonly Harmony _harmony = new(ModGUID);
         public static PungusSoulsAnimationsPlugin context;
 
         public static readonly ManualLogSource PungusSoulsAnimationsLogger =
@@ -40,10 +38,8 @@ namespace PungusSoulsAnimations;
         private static readonly ConfigSync ConfigSync = new(ModGUID)
         { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion };
 
-        // Location Manager variables
-        public Texture2D tex;
-        private Sprite mySprite;
-        private SpriteRenderer sr;
+        private bool _sword;
+        private readonly Harmony _harmony = new(ModGUID);
 
         public enum Toggle
         {
@@ -76,7 +72,7 @@ namespace PungusSoulsAnimations;
                 {
                 _sword = !_sword;
                 Player.m_localPlayer.m_animator.runtimeAnimatorController = PungusAnimations.MyNewAnimation;
-                Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, "working");
+                Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, "on");
                 }
         }
         public void FixedUpdate()
